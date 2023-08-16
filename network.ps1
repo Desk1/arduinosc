@@ -19,7 +19,7 @@ foreach ($adapter in $networkAdapters) {
 }
 
 # Specify the output file path
-$outputFilePath = "C:\Users\guh\Documents\duckdump\hacke.txt"
+$outputFilePath = "C:\Users\guh\Documents\duckdump\network.txt"
 
 # Export network information to a text file
 $networkInfo | Format-Table -AutoSize | Out-File -FilePath $outputFilePath
