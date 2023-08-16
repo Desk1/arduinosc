@@ -13,13 +13,13 @@ foreach ($adapter in $networkAdapters) {
         "IPv4Address"     = ($adapter | Get-NetIPAddress -AddressFamily IPv4).IPAddress
         "IPv6Address"     = ($adapter | Get-NetIPAddress -AddressFamily IPv6).IPAddress
         "Status"          = $adapter.Status
-        "Speed(Mbps)"     = $adapter.LinkSpeed / 1MB
+        "Speed(Mbps)"     = $adapter.LinkSpeed
     }
     $networkInfo += New-Object PSObject -Property $adapterInfo
 }
 
 # Specify the output file path
-$outputFilePath = "C:\Path\To\Output\File.txt"
+$outputFilePath = "C:\HACKED.TXT"
 
 # Export network information to a text file
 $networkInfo | Format-Table -AutoSize | Out-File -FilePath $outputFilePath
